@@ -34,7 +34,7 @@ class VoucherController extends Controller
                 "success" => true,
                 "message" => "",
                 "data" => $list
-            ],201);
+            ],200);
             
             
 
@@ -121,7 +121,7 @@ class VoucherController extends Controller
                 "success" => true,
                 "message" => "Successfully Deleted",
                 "data" => []
-            ],201);
+            ],200);
             
             
 
