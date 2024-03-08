@@ -22,6 +22,9 @@ use App\Http\Requests\LoginPostRequest;
 #Helpers
 use App\Helpers\Helper;
 
+#Jobs
+use App\Jobs\WelcomeEmailJob;
+
 class UserController extends Controller
 {
     public function __construct(private UserService $userService){}
@@ -30,7 +33,6 @@ class UserController extends Controller
     public function register(StoreUserRequest $request){
 
         try{
-            
             $user_data =[
                 "username" =>$request->username,
                 "first_name" =>$request->first_name,
@@ -42,9 +44,10 @@ class UserController extends Controller
             #Generate Voucher Code
             
             $voucher = Helper::VoucherGenarator(5);
-
             $create_user = $this->userService->store($user_data,$voucher);
-
+            
+            WelcomeEmailJob::dispatch($request->email,$request->username,$voucher)->onQueue('welcome_email');
+            
             return response()->json([
                 "success" => true,
                 "message" => "User Successfully Created",
