@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
 
 #Models
 use App\Models\User;
@@ -14,9 +16,8 @@ use App\Service\UserService;
 use App\Requests\StoreUserRequest;
 
 
-class ApiUserController extends Controller
+class UserController extends Controller
 {
-    
     public function __construct(private UserService $userService){}
 
 
