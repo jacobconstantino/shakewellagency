@@ -43,7 +43,7 @@ class UserController extends Controller
 
             #Generate Voucher Code
             
-            $voucher = Helper::VoucherGenarator(5);
+            $voucher = Helper::VoucherGenerator(5);
             $create_user = $this->userService->store($user_data,$voucher);
             
             WelcomeEmailJob::dispatch($request->email,$request->username,$voucher)->onQueue('welcome_email');

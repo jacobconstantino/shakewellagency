@@ -53,7 +53,7 @@ class VoucherController extends Controller
 
             #Generate Voucher Code
           
-            $voucher = Helper::VoucherGenarator(5);
+            $voucher = Helper::VoucherGenerator(5);
 
             $user_id = auth()->user()->id;
 

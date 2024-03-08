@@ -7,7 +7,7 @@ use App\Models\Voucher;
 
 class Helper{
 
-    public static function VoucherGenarator($length){
+    public static function VoucherGenerator($length){
 
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
