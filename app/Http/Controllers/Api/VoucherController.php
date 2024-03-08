@@ -52,10 +52,10 @@ class VoucherController extends Controller
         try{
 
             #Generate Voucher Code
-            
+          
             $voucher = Helper::VoucherGenarator(5);
 
-            $user_id = "13";
+            $user_id = auth()->user()->id;
 
 
             $counter = $this->voucherService->VoucherCounter($user_id);
@@ -107,7 +107,15 @@ class VoucherController extends Controller
 
         try{
            
-            $list = $this->voucherService->delete($request->all());
+            $count = $this->voucherService->delete($request->all());
+            
+            if($count == 0){
+                return response()->json([
+                    "success" => true,
+                    "message" => "No Data was Deleted",
+                    "data" => []
+                ],403);
+            }
 
             return response()->json([
                 "success" => true,

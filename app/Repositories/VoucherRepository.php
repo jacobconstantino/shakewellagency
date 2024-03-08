@@ -13,7 +13,9 @@ class VoucherRepository{
     public function index($data){
 
         $query = Voucher::query();
-
+        
+        $query->where("user_id",auth()->user()->id);
+        
         if(array_key_exists('id', $data)) {
             $query->where('id', '=', $data['id']);
         }
@@ -52,6 +54,8 @@ class VoucherRepository{
 
         $query = Voucher::query();
 
+        $query->where("user_id",auth()->user()->id);
+        
         if(array_key_exists('id', $data)) {
             $query->where('id', '=', $data['id']);
         }
@@ -60,9 +64,9 @@ class VoucherRepository{
             $query->where('voucher', '=', $data['voucher']);
         }
 
-        $query->delete();
-
-        return $query;
+        $count = $query->delete();
+        
+        return $count;
     }
 
     

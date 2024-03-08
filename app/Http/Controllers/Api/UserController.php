@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Auth;
 #Facades
 use Illuminate\Support\Facades\Hash;
 
@@ -17,6 +17,7 @@ use App\Services\UserService;
 
 #Requests
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\LoginPostRequest;
 
 #Helpers
 use App\Helpers\Helper;
@@ -61,8 +62,76 @@ class UserController extends Controller
         }
     }
 
-    public function login(Request $request){
+    public function login(LoginPostRequest $request){
 
+        try{
+
+
+            $credentials=[
+                "password" =>$request->password,
+            
+            ];
+            $query = User::query();
+
+            
+            if(array_key_exists('email',$request->all())){
+                $query->where("email",$request->email);
+
+                $type="email";
+                $credentials['email'] =$request->email;
+
+            }else{
+                $query->where("username",$request->username);
+
+                $type="username";
+
+                $credentials['username'] =$request->username;
+
+            }
+
+            $account = $query->first();
+
+            if(!$account){
+
+                return response()->json([
+                    "success" => false,
+                    "message" => $type. " doesn't exist"
+                ],404);
+            }
+
+          
+
+            if (Auth::attempt($credentials)) {
+
+                $token = $account->createToken($account->email.'-AuthToken')->plainTextToken;
+
+
+                return response()->json([
+                    "success" => true,
+                    "message" => "Login Succesfully",
+                    "data" => [
+                        "token" => $token
+                    ]
+                ],200);
+            
+                
+            } else {
+
+                return response()->json([
+                    "success" => false,
+                    "message" => "Invalid Credentials"
+                ],404);
+
+            }
+           
+        }catch(\Exception $e){
+
+            return response()->json([
+                "success" => false,
+                "server_response" => $e->getMessage(),
+            ],500);
+
+        }
     }
 
     public function logout(){

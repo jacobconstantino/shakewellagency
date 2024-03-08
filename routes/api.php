@@ -21,18 +21,25 @@ use App\Http\Controllers\Api\VoucherController;
 
 
 Route::post('/register',[UserController::class, 'register']);
+Route::post('/login',[UserController::class, 'login']);
+Route::post('/logout',[UserController::class, 'logout'])->middleware('auth:sanctum');;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('voucher')->group(function() {
+Route::middleware('auth:sanctum')->group(function() {
+    
 
-    Route::get('/',[VoucherController::class, 'index']);
-    Route::post('/create',[VoucherController::class, 'store']);
-    Route::delete('/delete',[VoucherController::class, 'delete']);
+    Route::prefix('voucher')->group(function() {
 
-
+        Route::get('/',[VoucherController::class, 'index']);
+        Route::post('/create',[VoucherController::class, 'store']);
+        Route::delete('/delete',[VoucherController::class, 'delete']);
+    
+    
+    });
+    
 });
 
