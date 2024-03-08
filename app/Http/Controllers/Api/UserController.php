@@ -93,7 +93,8 @@ class UserController extends Controller
             }
 
             $account = $query->first();
-
+            // This code snippet checks if the account exists. If the account is not found,
+            
             if(!$account){
 
                 return response()->json([

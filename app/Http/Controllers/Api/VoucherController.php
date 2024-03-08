@@ -60,6 +60,8 @@ class VoucherController extends Controller
 
             $counter = $this->voucherService->VoucherCounter($user_id);
 
+            // This code snippet checks if the counter value exceeds the limit of 10 voucher generations.
+            // allowing only up to 10 vouchers to be generated per user.
 
             if($counter >= 10){
 
