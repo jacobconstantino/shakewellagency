@@ -10,10 +10,10 @@ use Illuminate\Http\Request;
 use App\Models\User;
 
 #Services
-use App\Service\UserService;
+use App\Services\UserService;
 
 #Requests
-use App\Requests\StoreUserRequest;
+use App\Http\Requests\StoreUserRequest;
 
 
 class UserController extends Controller
@@ -25,11 +25,21 @@ class UserController extends Controller
 
         try{
 
+
+            return response()->json([
+                "success" => true,
+                "message" => "test"
+            ],201);
             
             
 
         }catch(Exception $e){
             
+
+            return response()->json([
+                "success" => false,
+                "message" => "test"
+            ],201);
         }
     }
 }

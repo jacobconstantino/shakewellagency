@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+#Controllers 
+use App\Http\Controllers\Api\UserController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::post('/create',[UserRepositoryController::class, 'create'])->name('test_crud.create');
+Route::post('/register',[UserController::class, 'register']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
