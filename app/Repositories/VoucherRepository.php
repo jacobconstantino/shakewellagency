@@ -27,7 +27,6 @@ class VoucherRepository{
             $query->where('voucher', '=', $data['voucher']);
         }
 
-        // $data = Flight::paginate(5, ['*'], 'page', 1);
 
         return $query->paginate(array_key_exists('paginate', $data) ? $data['paginate'] : 10 , ['*'] ,'page', array_key_exists('page', $data) ? $data['page'] : 1) ;
 
