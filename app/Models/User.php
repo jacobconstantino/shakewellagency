@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 use App\Models\Voucher;
 
@@ -47,7 +48,7 @@ class User extends Authenticatable
     ];
 
 
-    public function voucher(): HasMany{
+    public function vouchers(): HasMany{
         return $this->hasMany(Voucher::class);
     }
 

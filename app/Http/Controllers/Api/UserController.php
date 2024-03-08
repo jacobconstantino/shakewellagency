@@ -30,7 +30,7 @@ class UserController extends Controller
 
         try{
             
-            $data =[
+            $user_data =[
                 "username" =>$request->username,
                 "first_name" =>$request->first_name,
                 "email" =>$request->email,
@@ -42,12 +42,12 @@ class UserController extends Controller
             
             $voucher = Helper::VoucherGenarator(5);
 
-            $create = $this->userService->store($data);
+            $create_user = $this->userService->store($user_data,$voucher);
 
             return response()->json([
                 "success" => true,
                 "message" => "User Successfully Created",
-                "data" => $create
+                "data" => $create_user
             ],201);
             
             
@@ -59,5 +59,18 @@ class UserController extends Controller
                 "server_response" => $e->getMessage(),
             ],500);
         }
+    }
+
+    public function login(Request $request){
+
+    }
+
+    public function logout(){
+        
+        auth()->user()->tokens()->delete();
+    
+        return response()->json([
+          "message"=>"logged out"
+        ]);
     }
 }

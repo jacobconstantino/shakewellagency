@@ -1,0 +1,130 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+#Models
+use App\Models\Voucher;
+
+#Services
+use App\Services\VoucherService;
+
+
+#Helpers
+use App\Helpers\Helper;
+
+#Requests
+use App\Http\Requests\DeleteVoucherRequest;
+
+class VoucherController extends Controller
+{
+
+    public function __construct(protected VoucherService $voucherService){}
+
+
+    public function index(Request $request){
+
+        try{
+           
+            $list = $this->voucherService->index($request->all());
+
+            return response()->json([
+                "success" => true,
+                "message" => "",
+                "data" => $list
+            ],201);
+            
+            
+
+        }catch(\Exception $e){
+
+            return response()->json([
+                "success" => false,
+                "server_response" => $e->getMessage(),
+            ],500);
+        }
+
+    }
+
+    public function store(Request $request){
+        try{
+
+            #Generate Voucher Code
+            
+            $voucher = Helper::VoucherGenarator(5);
+
+            $user_id = "13";
+
+
+            $counter = $this->voucherService->VoucherCounter($user_id);
+
+
+            if($counter >= 10){
+
+                return response()->json([
+                    "success" => false,
+                    "message" => "Sorry, you have exceeded the maximum limit of voucher generation. You can only generate up to 10 vouchers."
+                ],403);
+
+            }
+
+            $data =[
+                "voucher" =>$voucher,
+                "user_id" =>$user_id,
+            ];
+
+
+            $create = $this->voucherService->store($data);
+
+
+            $response_data = [
+                "voucher_code" => $voucher
+            ];
+
+            return response()->json([
+                "success" => true,
+                "message" => "Successfully Generated",
+                "data" => $response_data
+            ],201);
+            
+            
+
+        }catch(\Exception $e){
+
+            return response()->json([
+                "success" => false,
+                "server_response" => $e->getMessage(),
+            ],500);
+        }
+    }
+
+    
+
+    public function delete(DeleteVoucherRequest $request){
+        
+
+        try{
+           
+            $list = $this->voucherService->delete($request->all());
+
+            return response()->json([
+                "success" => true,
+                "message" => "Successfully Deleted",
+                "data" => []
+            ],201);
+            
+            
+
+        }catch(\Exception $e){
+
+            return response()->json([
+                "success" => false,
+                "server_response" => $e->getMessage(),
+            ],500);
+        }
+
+
+    }
+}
