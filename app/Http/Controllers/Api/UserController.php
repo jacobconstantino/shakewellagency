@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 
 #Models
 use App\Models\User;
+use App\Models\Voucher;
 
 #Services
 use App\Services\UserService;
@@ -17,6 +18,8 @@ use App\Services\UserService;
 #Requests
 use App\Http\Requests\StoreUserRequest;
 
+#Helpers
+use App\Helpers\Helper;
 
 class UserController extends Controller
 {
@@ -34,6 +37,11 @@ class UserController extends Controller
                 "password" =>Hash::make($request->password),
 
             ];
+
+            #Generate Voucher Code
+            
+            $voucher = Helper::VoucherGenarator(5);
+
             $create = $this->userService->store($data);
 
             return response()->json([
