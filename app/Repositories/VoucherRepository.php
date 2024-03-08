@@ -21,9 +21,6 @@ class VoucherRepository{
         }
 
 
-        if(array_key_exists('user_id', $data)) {
-            $query->where('user_id', '=', $data['user_id']);
-        }
 
 
         if(array_key_exists('voucher', $data)) {
